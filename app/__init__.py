@@ -1,15 +1,5 @@
 from fastapi import FastAPI
-from sqlmodel import SQLModel
-from .models.db import engine
+from .routes.product import router as product_router
 
 app = FastAPI()
-
-
-@app.on_event("startup")
-async def on_startup():
-    SQLModel.metadata.create_all(engine)
-
-
-@app.on_event("shutdown")
-async def on_shutdown():
-    await engine.dispose()
+app.include_router(product_router)

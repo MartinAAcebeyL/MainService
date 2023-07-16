@@ -1,5 +1,6 @@
 from fastapi import APIRouter, Depends, Response, Request
-from app.models.product import Product, ProductUser
+from app.models.product import Product
+from app.models.productUser import ProductUser
 from app.models.db import get_session
 
 
