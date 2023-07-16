@@ -6,3 +6,7 @@ class Product(SQLModel, table=True):
     id: Optional[int] = Field(default=None, primary_key=True)
     title: str
     image: str
+
+    class Config:
+        orm_mode = True
+        tablename = "product"

@@ -6,3 +6,9 @@ class ProductUser(SQLModel, table=True):
     user_id: int
     product_id: int
 
+    class Config:
+        orm_mode = True
+        tablename = "product_user"
+    
+    
+
