@@ -1,7 +1,8 @@
 from decouple import config
+from app.models.product import Product
+from app.models.db import get_session
 import pika
 import json
-from app.models.product import Product
 
 URL = config("URL")
 params = pika.URLParameters(url=URL)
@@ -14,8 +15,8 @@ def callback(ch, method, properties, body):
     data = json.loads(body)
     print('Received in main: ', data, '\n')
     if properties.content_type == 'product_created':
-        product = Product(**data)
-        product.save()
+        product = Product(title=data['title'], image=product['image'])
+        product.save(get_session())
         print('Product created')
     elif properties.content_type == 'product_updated':
         product = Product.objects.get(id=data['id'])
