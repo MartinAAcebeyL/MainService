@@ -10,3 +10,11 @@ class Product(SQLModel, table=True):
     class Config:
         orm_mode = True
         tablename = "product"
+
+    def save(self, session):
+        session = next(session)
+        print(self.title, self.image)
+        product = Product(title=self.title, image=self.image)
+        session.add(product)
+        session.commit()
+        return product
