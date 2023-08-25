@@ -1,6 +1,7 @@
 version: '3.8'
 services:
   backend:
+    container_name: backendmainservice
     build: 
       context: .
       dockerfile: Dockerfile
@@ -11,12 +12,16 @@ services:
       - .:/app
     depends_on:
       - db
+    networks:
+      - mynetwork
 
   queue:
     build:
       context: .
       dockerfile: Dockerfile
     command: 'python consumer.py'
+    networks:
+      - mynetwork
     depends_on:
       - db
       
@@ -31,3 +36,11 @@ services:
       - ./dbdata:/var/lib/postgresql
     ports:
       - 54321:${POSTGRES_PORT}
+    networks:
+      - mynetwork
+      
+# first create a network with the name mynetwork and then use it in the services
+# run: docker network create mynetwork
+networks:
+  mynetwork:
+    external: true
